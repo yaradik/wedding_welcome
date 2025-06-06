@@ -1,4 +1,3 @@
-
 :root {
     --font-primary: 'Montserrat', sans-serif; /* Changed from Lato */
     --font-headings: 'Prata', serif; /* Changed from Playfair Display */
@@ -8,6 +7,7 @@
     --color-text: #424242; /* Charcoal */
     --color-primary-accent: #C2185B; /* Deeper Pink/Rose */
     --color-secondary-accent: #FFC107; /* Amber */
+    --color-secondary-accent-rgb: 255, 193, 7; /* RGB for Amber */
     --color-border: #E0E0E0; /* Light Grey */
     --color-white: #FFFFFF;
 
@@ -43,6 +43,10 @@ body {
     color: var(--color-text);
     line-height: 1.7;
 }
+body.no-scroll-mobile-nav {
+    overflow-y: hidden; /* Prevent body scroll when mobile menu is open */
+}
+
 
 .visually-hidden {
   position: absolute;
@@ -199,7 +203,7 @@ body {
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background-color: rgba(253, 250, 240, 0.9); /* var(--color-bg-section-light) with alpha */
+    background-color: rgba(253, 250, 240, 0.9); 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -220,10 +224,9 @@ body {
 }
 .main-header .logo {
     font-family: var(--font-accent); 
-    font-size: 1.6rem; /* Adjusted to fit in circle */
+    font-size: 1.6rem; 
     color: var(--color-primary-accent);
     font-weight: normal; 
-
     width: 50px; 
     height: 50px; 
     border-radius: 50%;
@@ -236,17 +239,51 @@ body {
     line-height: 1; 
     padding: 0; 
     box-sizing: border-box; 
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0; 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .main-header .logo:hover,
 .main-header .logo:focus-visible {
     transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(194, 24, 91, 0.3); /* Subtle glow with primary accent color */
+    box-shadow: 0 0 10px rgba(194, 24, 91, 0.3); 
 }
 
-.main-header nav a {
+/* Hamburger Button */
+.hamburger-button {
+    display: none; /* Hidden by default, shown on mobile */
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 901; /* Above nav, below potential modal overlay */
+    order: -1; /* Place it before the logo if nav is between logo and hamburger */
+}
+.hamburger-bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-text);
+    margin: 5px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius: 1px;
+}
+.hamburger-button.open .hamburger-bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.hamburger-button.open .hamburger-bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-button.open .hamburger-bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* Desktop Navigation */
+.main-header nav#main-nav {
+    display: flex;
+    align-items: center;
+}
+.main-header nav#main-nav a {
     font-family: var(--font-primary);
     font-weight: 500; 
     color: var(--color-text);
@@ -257,11 +294,11 @@ body {
     transition: color 0.3s ease;
     font-size: 0.95rem;
 }
-.main-header nav a:hover,
-.main-header nav a:focus-visible {
+.main-header nav#main-nav a:hover,
+.main-header nav#main-nav a:focus-visible {
     color: var(--color-primary-accent);
 }
-.main-header nav a::after {
+.main-header nav#main-nav a::after { /* Underline effect for desktop */
     content: '';
     position: absolute;
     bottom: -2px; 
@@ -271,8 +308,8 @@ body {
     background-color: var(--color-primary-accent);
     transition: width 0.3s ease;
 }
-.main-header nav a:hover::after,
-.main-header nav a:focus-visible::after {
+.main-header nav#main-nav a:hover::after,
+.main-header nav#main-nav a:focus-visible::after {
     width: 100%;
 }
 
@@ -323,7 +360,7 @@ body {
     width: 100%;
     margin-left: auto; 
     margin-right: auto; 
-    text-align: center; /* Reinforce centering for direct inline/text children */
+    text-align: center; 
 }
 
 
@@ -480,10 +517,10 @@ p {
 }
 .venue-name { /* Sulu Sai */
     font-family: var(--font-headings); 
-    font-size: 12.0rem; /* Increased from 4.0rem (4.0 * 3) */
+    font-size: 12.0rem; 
     color: var(--color-primary-accent); 
     margin-bottom: 0.5em; 
-    line-height: 1; /* Adjust line height for very large font */
+    line-height: 1; 
 }
 .location-section .countdown-subtitle { margin-top: 1.5em; } 
 .location-section .countdown-timer { margin-top: 0.5em; }
@@ -520,12 +557,12 @@ p {
 .timing-section .timeline-item:nth-child(odd) {
     left: 0;
     text-align: right;
-    padding-right: 60px; /* Space for icon */
+    padding-right: 60px; 
 }
 .timing-section .timeline-item:nth-child(even) {
     left: 50%;
     text-align: left;
-    padding-left: 60px; /* Space for icon */
+    padding-left: 60px; 
 }
 .timing-section .timeline-item:hover {
     transform: translateY(-5px);
@@ -549,12 +586,12 @@ p {
     box-shadow: 0 0 0 3px var(--color-secondary-accent);
 }
 .timing-section .timeline-item:nth-child(odd) .timeline-icon-container {
-    right: -25px; /* (50px width / 2) */
+    right: -25px; 
 }
 .timing-section .timeline-item:nth-child(even) .timeline-icon-container {
-    left: -25px; /* (50px width / 2) */
+    left: -25px; 
 }
-.timeline-icon { /* Specific styling for icons if needed */
+.timeline-icon { 
     display: block;
 }
 .timeline-content {
@@ -639,7 +676,7 @@ p {
     transition: transform 0.25s ease, box-shadow 0.25s ease; 
     cursor: default; 
     border: 1px solid rgba(0,0,0,0.08);
-    position: relative; /* For tooltip */
+    position: relative; 
 }
 .color-swatch:hover { 
     transform: scale(1.15); 
@@ -650,7 +687,7 @@ p {
 .color-swatch[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 110%; /* Position above the swatch */
+    bottom: 110%; 
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--color-text);
@@ -668,7 +705,7 @@ p {
 .color-swatch[data-tooltip]::before { /* Tooltip arrow */
     content: '';
     position: absolute;
-    bottom: calc(110% - 5px); /* Arrow base connects to tooltip */
+    bottom: calc(110% - 5px); 
     left: 50%;
     transform: translateX(-50%) translateY(5px);
     border-width: 5px;
@@ -684,28 +721,24 @@ p {
     opacity: 1;
     visibility: visible;
 }
-.swatch-note { /* Note "только для мужчин" on swatch or as part of tooltip handled by data-tooltip */
-    /* If still needed directly on swatch, style here. Otherwise, it's in data-tooltip now. */
-    /* This class is now visually-hidden in HTML, tooltip handles the info */
-}
 
 
 /* Tips & Wishes Section - NEW STYLES */
-.tips-wishes-section .tips-image { /* Main image for this section */
+.tips-wishes-section .tips-image { 
     display: block;
-    margin: 0 auto 30px auto; /* Centered above the cards */
-    max-width: 450px; /* Adjust as needed */
+    margin: 0 auto 30px auto; 
+    max-width: 450px; 
     width: 70%;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
-.tips-wishes-section .section-subtitle { /* "Надеемся, что вы готовы..." */
+.tips-wishes-section .section-subtitle { 
     margin-bottom: 30px;
 }
 .tips-grid-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 25px;
     margin-bottom: 30px;
 }
@@ -715,8 +748,8 @@ p {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.07);
     display: flex;
-    flex-direction: column; /* Icon above text */
-    align-items: center; /* Center icon and text */
+    flex-direction: column; 
+    align-items: center; 
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -725,7 +758,7 @@ p {
     box-shadow: 0 7px 18px rgba(0,0,0,0.1);
 }
 .tip-icon {
-    font-size: 2.5rem; /* Larger icon */
+    font-size: 2.5rem; 
     margin-bottom: 15px;
     color: var(--color-primary-accent);
     line-height: 1;
@@ -744,12 +777,12 @@ p {
 
 
 /* RSVP Section - NEW STYLES */
-.rsvp-section #rsvp-heading-main { /* "Пожалуйста, подтвердите свое присутствие" */
+.rsvp-section #rsvp-heading-main { 
     font-size: 2.2rem;
-    color: var(--color-text); /* Standard text color for main part */
-    margin-bottom: 0.2em; /* Reduced bottom margin */
+    color: var(--color-text); 
+    margin-bottom: 0.2em; 
 }
-.rsvp-section .rsvp-deadline-highlight { /* "до 10 июня" */
+.rsvp-section .rsvp-deadline-highlight { 
     display: block;
     font-family: var(--font-headings);
     font-size: 2.8rem;
@@ -757,18 +790,18 @@ p {
     margin: 0.1em auto 0.8em auto;
     padding: 8px 15px;
     line-height: 1.2;
-    background-color: rgba(255, 193, 7, 0.15); /* Light amber background */
+    background-color: rgba(255, 193, 7, 0.15); 
     border-radius: 8px;
     border-left: 5px solid var(--color-secondary-accent);
     border-right: 5px solid var(--color-secondary-accent);
-    max-width: max-content; /* Fit to content */
+    max-width: max-content; 
 }
 .rsvp-section .rsvp-image {
-    max-width: 280px; /* Slightly smaller to give text more space */
+    max-width: 280px; 
     margin-top: 10px;
     margin-bottom: 25px;
 }
-.rsvp-section p { /* General paragraphs in RSVP */
+.rsvp-section p { 
     max-width: 600px;
     margin-bottom: 1em;
 }
@@ -782,7 +815,6 @@ p {
 /* Decorative Images */
 .decorative-image { display: block; margin: 25px auto; max-width: 90%; height: auto; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.12); }
 .hero-image { max-width: 280px; }
-/* .rsvp-image -- styled above */
 .footer-image { max-width: 280px; margin-bottom: 25px; }
 
 /* Buttons & Links */
@@ -841,17 +873,62 @@ p {
     .hero-page-1 .hero-top-names { font-size: 4.5rem; }
     .section-content-wrapper { max-width: 90%; }
 
-    .tips-grid-container { grid-template-columns: 1fr; /* Single column earlier for tips */ }
+    .tips-grid-container { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
     --header-height: 60px;
     .main-header .logo { 
-        font-size: 1.4rem; /* Adjusted for smaller circle */
+        font-size: 1.4rem; 
         width: 45px; 
         height: 45px; 
     }
-    .main-header nav a { margin-left: 15px; font-size: 0.9rem;}
+    /* Hamburger button becomes primary nav control */
+    .hamburger-button {
+        display: flex; /* Show hamburger */
+        flex-direction: column;
+        justify-content: space-around;
+        order: 1; /* Place hamburger after logo if nav is on the right, or adjust as needed */
+        margin-left: auto; /* Push to the right if logo is on left */
+    }
+    .main-header nav#main-nav {
+        display: none; /* Hide nav by default */
+        flex-direction: column;
+        position: absolute;
+        top: var(--header-height); /* Position below header */
+        left: 0;
+        width: 100%;
+        background-color: var(--color-bg-section-light);
+        padding: 15px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--color-border);
+        align-items: center;
+        max-height: calc(100vh - var(--header-height));
+        overflow-y: auto;
+    }
+    .main-header nav#main-nav.active {
+        display: flex; /* Show when active */
+    }
+    .main-header nav#main-nav a {
+        margin: 12px 0;
+        font-size: 1.1rem; /* Larger, more tappable links */
+        color: var(--color-text);
+        padding: 10px 20px;
+        width: 90%;
+        text-align: center;
+        border-bottom: 1px solid rgba(var(--color-border), 0.3);
+    }
+     .main-header nav#main-nav a:last-child {
+        border-bottom: none;
+    }
+    .main-header nav#main-nav a::after { /* Remove desktop underline effect */
+        display: none;
+    }
+    .header-content {
+        justify-content: space-between; /* Ensure logo and hamburger are spaced */
+    }
+
+
     .main-content { padding-top: var(--header-height); }
     .scroll-page { min-height: calc(100vh - var(--header-height)); padding: 40px 15px; }
     
@@ -864,17 +941,17 @@ p {
     .content-section h2 { font-size: 2rem; } 
     .section-subtitle { font-size: 1.1rem; }
     
-    .venue-name { font-size: 9.9rem; } /* Adjusted from 3.3rem (3.3 * 3) */
+    .venue-name { font-size: 9.9rem; } 
 
     /* Timeline Responsive */
     .timing-section .timeline::before { left: 30px; }
     .timing-section .timeline-item { width: 100%; padding-left: 70px; padding-right: 20px; text-align: left !important; margin-bottom: 30px; }
     .timing-section .timeline-item:nth-child(odd),
-    .timing-section .timeline-item:nth-child(even) { left: 0; padding-left: 80px; padding-right: 15px; } /* Reset side alignment */
-    .timing-section .timeline-item .timeline-icon-container { left: 5px; /* (30px line - 25px icon_half_width) */ }
+    .timing-section .timeline-item:nth-child(even) { left: 0; padding-left: 80px; padding-right: 15px; } 
+    .timing-section .timeline-item .timeline-icon-container { left: 5px; }
     .timing-section .timeline-item:nth-child(odd) .timeline-icon-container,
     .timing-section .timeline-item:nth-child(even) .timeline-icon-container { right: auto; left: 5px; }
-    .timing-section .timeline-item .timeline-content::after { /* Hide arrows */ display: none; }
+    .timing-section .timeline-item .timeline-content::after { display: none; }
     .timeline-content .time { font-size: 1.3rem; }
     .timeline-content .event-title { font-size: 1.15rem; }
     .timeline-content .event-description { font-size: 0.9rem; }
@@ -897,7 +974,7 @@ p {
     .footer-image { max-width: 240px; }
 
     .tips-wishes-section .tips-image { max-width: 350px; width: 80%;}
-    .tips-grid-container { grid-template-columns: 1fr; gap: 20px; } /* Already single column from 992px */
+    /* .tips-grid-container already single column from 992px */
     .tip-card { padding: 20px; }
     .tip-icon { font-size: 2.2rem; margin-bottom: 12px; }
     .tip-text { font-size: 0.9rem; }
@@ -911,46 +988,23 @@ p {
 }
 
 @media (max-width: 480px) {
-    --header-height: 60px; /* Kept 60px to accommodate nav and logo space */
-    .main-header .header-content { 
-        justify-content: space-between; /* Allow space for logo and nav */
-        max-width: 100%; 
-        padding: 0 10px; /* Reduced padding */
-    }
+    /* Header height might not need to change further if 60px is fine */
     .main-header .logo { 
-        display: flex; /* Ensure logo is displayed */
-        font-size: 1.2rem; /* Smaller for very small screens */
+        font-size: 1.2rem; 
         width: 40px;
         height: 40px;
     }
-    .main-header nav { 
-        display: flex; 
-        justify-content: flex-end; /* Align nav to the right */
-        /* width: auto; Remove fixed width */
-        padding: 0;
-        flex-wrap: nowrap; /* Try to keep them in one line if possible */
-        overflow-x: auto; /* Allow horizontal scroll for nav if it's too long */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-        scrollbar-width: none; /* Hide scrollbar for Firefox */
+     .main-header nav#main-nav a { /* Styles for links in open mobile menu */
+        font-size: 1rem;
+        padding: 12px 15px;
     }
-    .main-header nav::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari, and Opera */
-        display: none;
-    }
-    .main-header nav a { 
-        margin-left: 5px; /* Reduced margin */
-        font-size: 0.6rem; /* Even smaller for more links */
-        padding: 5px 2px; /* Adjust padding */
-        letter-spacing: 0.2px; 
-        white-space: nowrap; /* Prevent nav items from wrapping */
-    }
-    .main-content { padding-top: var(--header-height); }
-    .scroll-page { min-height: calc(100vh - var(--header-height)); padding: 30px 10px; }
-
+    /* Envelope and initial screen */
     .envelope-title-text { font-size: 1.4rem; margin-bottom: 20px; }
     .envelope { width: 220px; height: 150px; }
     .envelope-seal { width: 50px; height: 50px; font-size: 1.2rem; }
     .open-button { padding: 10px 20px; font-size: 0.9rem; margin-top: 25px; }
 
+    /* General text scaling */
     .hero-page-1 h1 { font-size: 2.8rem; line-height: 1.1; }
     .hero-page-1 .hero-top-date { font-size: 1.5rem; }
     .hero-page-1 .hero-top-names { font-size: 2.8rem; line-height: 1.1; }
@@ -958,13 +1012,13 @@ p {
     .content-section h2 { font-size: 1.8rem; } 
     .section-subtitle { font-size: 1rem; margin-bottom: 20px;}
     
-    .venue-name { font-size: 8.4rem; } /* Adjusted from 2.8rem (2.8 * 3) */
+    .venue-name { font-size: 8.4rem; } 
     
     .dress-code-section > .section-content-wrapper > p { font-size: 0.9rem; }
     .dress-code-palettes-container { flex-direction: column; align-items: center; gap: 25px; max-width: 100%; }
     .palette-column { max-width: 250px; width: 100%;}
     .palette-column h3 { font-size: 1.3rem; }
-    .color-swatches { grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); gap: 10px; } /* More responsive grid */
+    .color-swatches { grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); gap: 10px; } 
     .color-swatch { width: 45px; height: 45px; } 
 
     .location-section .event-item { padding: 20px; width: 95%; }
@@ -981,7 +1035,7 @@ p {
         width: 40px;
         height: 40px;
         font-size: 1.5rem;
-        left: 0px; /* (20px line - 20px icon_half_width) */
+        left: 0px; 
         border-width: 2px;
         box-shadow: 0 0 0 2px var(--color-secondary-accent);
     }
@@ -1013,35 +1067,46 @@ p {
 }
 
 /* Accessibility */
-*:focus { outline: none; } /* Basic reset */
-*:focus-visible { /* Modern focus styling */
+*:focus { outline: none; } 
+*:focus-visible { 
     outline: 3px solid var(--color-secondary-accent);
     outline-offset: 3px; 
     border-radius: 4px; 
 }
-.main-header nav a:focus-visible {
+.main-header nav a:focus-visible { /* Desktop nav link focus */
     outline-offset: 1px; 
-    background-color: rgba(255, 193, 7, 0.2); 
+    background-color: rgba(var(--color-secondary-accent-rgb), 0.2); 
 }
+.main-header nav#main-nav.active a:focus-visible { /* Mobile nav link focus */
+    background-color: rgba(var(--color-secondary-accent-rgb), 0.25);
+    color: var(--color-primary-accent);
+    outline: 2px solid var(--color-primary-accent);
+    outline-offset: -2px; /* Inset outline */
+}
+
 .button:focus-visible, .map-link:focus-visible {
     outline-color: var(--color-primary-accent);
 }
-.color-swatch:focus-visible { /* For keyboard focus on swatches */
+.color-swatch:focus-visible { 
     outline-offset: 1px;
     transform: scale(1.15); 
     box-shadow: 0 5px 12px rgba(0,0,0,0.15);
 }
-.main-header .logo:focus-visible { /* Specific focus for logo */
+.main-header .logo:focus-visible { 
     outline-color: var(--color-primary-accent);
     box-shadow: 0 0 10px rgba(194, 24, 91, 0.5);
 }
+.hamburger-button:focus-visible {
+    outline: 2px solid var(--color-primary-accent);
+    outline-offset: 2px;
+}
 .timeline-item:focus-within .timeline-content, 
-.timeline-item a:focus .timeline-content /* If items become links */ {
+.timeline-item a:focus .timeline-content { 
     outline: 2px solid var(--color-secondary-accent);
     outline-offset: 2px;
-    box-shadow: 0 0 10px rgba(var(--color-secondary-accent), 0.5);
+    box-shadow: 0 0 10px rgba(var(--color-secondary-accent-rgb), 0.5); 
 }
-.tip-card:focus-within { /* Accessibility for tip cards */
+.tip-card:focus-within { 
     outline: 2px solid var(--color-secondary-accent);
     outline-offset: 2px;
     box-shadow: 0 7px 18px rgba(0,0,0,0.1);
