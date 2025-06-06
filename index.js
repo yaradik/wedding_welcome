@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const openButton = document.getElementById('open-button');
     const invitationContent = document.getElementById('invitation-content');
     const mainHeader = document.getElementById('main-header');
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mainNav = document.getElementById('main-nav');
 
     let scrollObserver = null; 
 
@@ -13,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scrollPages.length === 0 || scrollObserver) return; 
 
         const observerOptions = {
-            root: invitationContent, // Observe scrolling within main-content
-            rootMargin: '0px 0px -15% 0px', // Trigger a bit earlier
+            root: invitationContent, 
+            rootMargin: '0px 0px -15% 0px', 
             threshold: 0.1 
         };
 
@@ -22,11 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                } else {
-                    // Optional: remove active class
-                    // if (entry.boundingClientRect.bottom < 0 || entry.boundingClientRect.top > window.innerHeight) {
-                    //    entry.target.classList.remove('active');
-                    // }
                 }
             });
         };
@@ -39,11 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
              if (scrollPages.length > 0 && invitationContent && invitationContent.classList.contains('visible')) {
                 const firstPage = scrollPages[0];
-                // Check if first page is in view relative to the scroll container (invitationContent)
                 const containerRect = invitationContent.getBoundingClientRect();
                 const firstPageRect = firstPage.getBoundingClientRect();
                 
-                // Adjust condition for intersection relative to the container
                 if (firstPageRect.top <= containerRect.top + (containerRect.height * 0.85) && firstPageRect.bottom >= containerRect.top) { 
                     firstPage.classList.add('active');
                 }
@@ -51,9 +46,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150); 
     };
 
+    const toggleMobileMenu = () => {
+        if (!mainNav || !hamburgerButton) return;
+        const isActive = mainNav.classList.toggle('active');
+        hamburgerButton.classList.toggle('open');
+        hamburgerButton.setAttribute('aria-expanded', isActive.toString());
+        // Optional: toggle body scroll lock
+        // document.body.classList.toggle('no-scroll-mobile-nav', isActive);
+    };
+
     const setupHeaderNavigation = () => {
-        if (!mainHeader || !invitationContent) return;
-        const navLinks = mainHeader.querySelectorAll('nav a');
+        if (!mainHeader || !invitationContent || !mainNav) return;
+        const navLinks = mainNav.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -64,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (targetElement && targetElement instanceof HTMLElement) {
                     const headerOffset = mainHeader.offsetHeight;
-                    // Calculate position relative to the scrollable container (invitationContent)
                     const elementPositionInContainer = targetElement.offsetTop; 
                     const offsetPosition = elementPositionInContainer - headerOffset;
                     
@@ -72,6 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         top: offsetPosition,
                         behavior: 'smooth'
                     });
+
+                    // Close mobile menu if open
+                    if (mainNav.classList.contains('active')) {
+                        toggleMobileMenu();
+                    }
 
                     const targetHeader = targetElement.querySelector('h1, h2');
                     if(targetHeader && targetHeader instanceof HTMLElement) {
@@ -86,6 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
+        if (hamburgerButton) {
+            hamburgerButton.addEventListener('click', toggleMobileMenu);
+        }
     };
 
     const openEnvelope = () => {
